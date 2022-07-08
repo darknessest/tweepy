@@ -47,7 +47,11 @@ class HTTPException(TweepyException):
             status_code = response.status_code
         except AttributeError:
             # response is an instance of aiohttp.ClientResponse
-            status_code = response.status
+            try:
+                status_code = response.status
+            except AttributeError:
+                print("Actual response value:", response)
+                status_code = None
 
         if response_json is None:
             try:
